@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tulsa Food Selector 🌮</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Apply saved theme immediately to prevent flash
+    (function() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      else if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <div class="background-pattern"></div>
+  
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button id="theme-light" title="Light mode">☀️</button>
+    <button id="theme-system" title="System preference">💻</button>
+    <button id="theme-dark" title="Dark mode">🌙</button>
+  </div>
+  
+  <main class="container">
+    <header>
+      <h1>Where should we eat?</h1>
+      <p class="location">📍 Tulsa, OK  |  📅 December 27th</p>
+    </header>
+
+    <!-- User Name Modal -->
+    <div id="name-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-icon">👋</div>
+        <h2>Hey there!</h2>
+        <p>What's your name? This helps us track your votes.</p>
+        <input type="text" id="user-name-input" placeholder="Enter your name..." autocomplete="off">
+        <button id="set-name-btn" class="btn primary">Let's Vote!</button>
+      </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="note-modal" class="note-modal hidden">
+      <div class="modal-content">
+        <div class="modal-icon">📝</div>
+        <h2>Notes</h2>
+        <div id="note-restaurant-title" class="restaurant-title"></div>
+        
+        <div id="existing-notes" class="existing-notes">
+          <!-- Populated by JS -->
+        </div>
+        
+        <textarea id="note-input" placeholder="Add your note... (recommendations, dietary info, etc.)"></textarea>
+        
+        <div class="modal-buttons">
+          <button id="cancel-note-btn" class="btn secondary">Cancel</button>
+          <button id="save-note-btn" class="btn primary">Save Note</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current User Display -->
+    <div id="user-bar" class="user-bar hidden">
+      <span>Voting as <strong id="current-user-name"></strong></span>
+      <button id="change-name-btn" class="btn small">Change</button>
+    </div>
+
+    <!-- Restaurant List -->
+    <div id="restaurants-list" class="restaurants-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Suggest New Place -->
+    <div class="suggest-section">
+      <h3>Don't see your favorite spot?</h3>
+      <div class="suggest-form">
+        <input type="text" id="suggest-input" placeholder="Restaurant name..." autocomplete="off">
+        <input type="text" id="suggest-cuisine-input" placeholder="Cuisine type (optional)" autocomplete="off">
+        <button id="suggest-btn" class="btn secondary">Add</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Vote on restaurants • Share notes • Hover vote count to see voters</p>
+      <button id="reset-btn" class="btn danger small">Clear My Votes & Notes</button>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
