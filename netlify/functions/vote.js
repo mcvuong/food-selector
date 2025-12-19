@@ -71,7 +71,11 @@ exports.handler = async (event, context) => {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid vote type' }) };
   }
   
-  const store = getStore("food-selector");
+  const store = getStore({
+      name: "food-selector",
+      siteID: process.env.MY_SITE_ID,
+      token: process.env.NETLIFY_AUTH_TOKEN
+    });
   const data = await getData(store);
   
   const restaurant = data.restaurants.find(r => r.id === restaurantId);

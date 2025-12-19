@@ -53,7 +53,11 @@ exports.handler = async (event, context) => {
   }
   
   try {
-    const store = getStore("food-selector");
+    const store = getStore({
+      name: "food-selector",
+      siteID: process.env.MY_SITE_ID,
+      token: process.env.NETLIFY_AUTH_TOKEN
+    });
   const cookies = parseCookies(event.headers.cookie);
   const oldName = cookies.visitorId;
   
