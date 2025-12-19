@@ -52,7 +52,8 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
   
-  const store = getStore("food-selector");
+  try {
+    const store = getStore("food-selector");
   const cookies = parseCookies(event.headers.cookie);
   const oldName = cookies.visitorId;
   
@@ -98,5 +99,13 @@ exports.handler = async (event, context) => {
     },
     body: JSON.stringify({ success: true, name: trimmedName })
   };
+  } catch (error) {
+    console.error('Function error:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: error.message, stack: error.stack })
+    };
+  }
 };
 

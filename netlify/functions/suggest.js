@@ -50,8 +50,9 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
   
-  const cookies = parseCookies(event.headers.cookie);
-  const visitorId = cookies.visitorId;
+  try {
+    const cookies = parseCookies(event.headers.cookie);
+    const visitorId = cookies.visitorId;
   
   if (!visitorId) {
     return { statusCode: 401, headers, body: JSON.stringify({ error: 'Please set your name first' }) };
@@ -102,5 +103,13 @@ exports.handler = async (event, context) => {
     headers,
     body: JSON.stringify({ success: true, restaurant: newRestaurant })
   };
+  } catch (error) {
+    console.error('Function error:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: error.message, stack: error.stack })
+    };
+  }
 };
 

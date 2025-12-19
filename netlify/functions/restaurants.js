@@ -53,10 +53,6 @@ function parseCookies(cookieHeader) {
 }
 
 exports.handler = async (event, context) => {
-  const store = getStore("food-selector");
-  const cookies = parseCookies(event.headers.cookie);
-  const visitorId = cookies.visitorId;
-  
   // CORS headers
   const headers = {
     'Content-Type': 'application/json',
@@ -68,6 +64,11 @@ exports.handler = async (event, context) => {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
   }
+  
+  try {
+    const store = getStore("food-selector");
+    const cookies = parseCookies(event.headers.cookie);
+    const visitorId = cookies.visitorId;
   
   if (event.httpMethod === 'GET') {
     const data = await getData(store);
@@ -138,5 +139,13 @@ exports.handler = async (event, context) => {
     headers,
     body: JSON.stringify({ error: 'Method not allowed' })
   };
+  } catch (error) {
+    console.error('Function error:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: error.message, stack: error.stack })
+    };
+  }
 };
 
