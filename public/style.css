@@ -601,9 +601,14 @@ h1 {
   height: 48px;
   background: var(--bg-secondary);
   border-radius: var(--radius-sm);
-  cursor: default;
+  cursor: pointer;
   flex-direction: column;
   gap: 2px;
+  transition: background 0.15s ease;
+}
+
+.vote-count:hover {
+  background: var(--bg-card-hover);
 }
 
 .vote-count .voters-preview {
@@ -640,10 +645,22 @@ h1 {
   pointer-events: none;
 }
 
-.vote-count:hover .tooltip {
+/* Show on hover for desktop */
+@media (hover: hover) {
+  .vote-count:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+/* Show when active (clicked) - works on mobile */
+.vote-count.active .tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .tooltip::after {

@@ -262,6 +262,19 @@ function renderRestaurants(restaurants) {
       if (noteBtn) openNoteModal(noteBtn);
     });
   });
+  
+  // Add click handlers for vote count (to show voters on mobile)
+  document.querySelectorAll('.vote-count').forEach(voteCount => {
+    voteCount.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Close any other open tooltips first
+      document.querySelectorAll('.vote-count.active').forEach(other => {
+        if (other !== voteCount) other.classList.remove('active');
+      });
+      // Toggle this one
+      voteCount.classList.toggle('active');
+    });
+  });
 }
 
 // Vote for a restaurant
@@ -476,6 +489,15 @@ noteInput.addEventListener('keydown', (e) => {
 document.getElementById('theme-light').addEventListener('click', () => setTheme('light'));
 document.getElementById('theme-system').addEventListener('click', () => setTheme('system'));
 document.getElementById('theme-dark').addEventListener('click', () => setTheme('dark'));
+
+// Close vote tooltips when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.vote-count')) {
+    document.querySelectorAll('.vote-count.active').forEach(el => {
+      el.classList.remove('active');
+    });
+  }
+});
 
 // Initialize
 init();
